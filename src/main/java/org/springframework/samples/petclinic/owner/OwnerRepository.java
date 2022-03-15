@@ -19,6 +19,7 @@ import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.Repository;
 import org.springframework.data.repository.query.Param;
@@ -55,6 +56,7 @@ public interface OwnerRepository extends Repository<Owner, Integer> {
 
 	@Query("SELECT DISTINCT owner FROM Owner owner left join  owner.pets WHERE owner.lastName LIKE :lastName% ")
 	@Transactional(readOnly = true)
+	@EntityGraph("Owner.pets")
 	Page<Owner> findByLastName(@Param("lastName") String lastName, Pageable pageable);
 
 	/**
